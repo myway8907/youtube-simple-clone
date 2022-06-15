@@ -1,17 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import { flexCenter } from '../styles/Mixin';
+import { flexCenter } from '../../styles/Mixin';
+import SearchInput from './SearchInput';
 
 export default function Navbar() {
   return (
     <OuterContainer>
       <Logo>
         <YoutubeLogo />
-        <form>
-          <SearchArea />
-        </form>
       </Logo>
-      <SearchArea></SearchArea>
+      <SearchInput />
+      <div></div>
     </OuterContainer>
   );
 }
@@ -19,15 +18,17 @@ export default function Navbar() {
 const OuterContainer = styled.div`
   position: relative;
   display: flex;
+  justify-content: space-between;
+  background: #202020;
 
   width: 100vw;
   height: 70px;
-  border: 1px solid pink;
+  border-bottom: 2px solid #373737;
 `;
 const Logo = styled.div`
   ${flexCenter}
   height: ${(props) => props.theme.navHeight};
-  border: 1px solid red;
+  padding-left: 20px;
   line-height: ${(props) => props.theme.navHeight};
 `;
 
@@ -36,7 +37,3 @@ const YoutubeLogo = styled.img.attrs({
 })`
   display: inline-block;
 `;
-
-const SearchArea = styled.input.attrs({
-  type: 'text',
-})``;
