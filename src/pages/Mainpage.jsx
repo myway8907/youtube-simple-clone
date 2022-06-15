@@ -1,7 +1,12 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { searchUrl } from '../atom/apiUrl';
+import styled from 'styled-components';
 
 function Mainpage() {
+  const [requestSearchUrl] = useRecoilState(searchUrl);
+  fetch();
+
   return (
     <h1 className='title'>
       color: blue;
