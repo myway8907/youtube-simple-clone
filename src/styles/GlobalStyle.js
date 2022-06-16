@@ -13,7 +13,7 @@ ${reset}
 
 html, body {
   width: 100vw;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 a {

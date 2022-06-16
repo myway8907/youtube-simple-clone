@@ -1,48 +1,42 @@
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { searchUrl } from '../atom/apiUrl';
+import VideosList from '../components/videosList/VideosList';
 
-function Mainpage() {
+export default function Mainpage() {
   const [requestSearchUrl, setRequestSearchUrl] = useRecoilState(searchUrl);
-  const [videosList, setVideosList] = useState([]);
+  const [mostPopular, setMostPopular] = useState([]);
+  const [searchResult, setSearchResult] = useState([]);
 
   useEffect(() => {
-    function fetchData() {
-      requestSearchUrl
-        ? fetch(requestSearchUrl)
-            .then((res) => res.json())
-            .then((res) => {
-              console.log('Search Results');
-              console.log(res);
-            })
-        : fetch(
-            process.env.REACT_APP_BASE_URL +
-              'videos?part=snippet&chart=mostPopular&maxResults=25' +
-              '&key=' +
-              process.env.REACT_APP_AUTH_KEY
-          )
-            .then((res) => res.json())
-            .then((res) => {
-              console.log('Default most popular');
-              console.log(res);
-            });
-    }
+    const mostPopUrl =
+      process.env.REACT_APP_BASE_URL +
+      process.env.REACT_APP_MOST_POPULAR +
+      '&key=' +
+      process.env.REACT_APP_AUTH_KEY;
 
-    fetchData();
+    fetch(mostPopUrl)
+      .then((res) => res.json())
+      .then((res) => {
+        setMostPopular([...res.items]);
+      });
+  }, []);
 
-    if (requestSearchUrl) {
-      setRequestSearchUrl('');
-    }
+  console.log(mostPopular);
 
-    return;
-  }, [requestSearchUrl]);
+  // useEffect(() => {
+  //   requestSearchUrl &&
+  //     fetch(requestSearchUrl)
+  //       .then((res) => res.json())
+  //       .then((res) => console.log(res));
+  // }, [requestSearchUrl]);
 
   return (
-    <h1 className='title'>
-      color: blue;
-      <div className='sub'>color: red</div>
-    </h1>
+    <OuterContainer>
+      <VideosList mostPopular={mostPopular} />
+    </OuterContainer>
   );
 }
 
-export default Mainpage;
+const OuterContainer = styled.div``;
