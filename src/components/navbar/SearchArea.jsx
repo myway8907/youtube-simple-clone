@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { searchUrl } from '../../atom/apiUrl';
 
-export default function SearchInput() {
+export default function SearchArea() {
   const [, setSearchUrl] = useRecoilState(searchUrl);
   const inputRef = useRef();
   const formRef = useRef();
@@ -12,7 +12,9 @@ export default function SearchInput() {
     const dataUrl =
       process.env.REACT_APP_BASE_URL +
       'search?part=snippet&maxResults=25&q=' +
-      inputRef.current.value;
+      inputRef.current.value +
+      '&key=' +
+      process.env.REACT_APP_AUTH_KEY;
 
     setSearchUrl(dataUrl);
   }, []);
@@ -27,7 +29,7 @@ export default function SearchInput() {
 
   return (
     <Form ref={formRef} onSubmit={onSubmit}>
-      <SearchArea ref={inputRef}></SearchArea>
+      <SearchInput ref={inputRef}></SearchInput>
       <SearchBtn />
     </Form>
   );
@@ -39,7 +41,7 @@ const Form = styled.form`
   justify-content: flex-end;
 `;
 
-const SearchArea = styled.input.attrs({
+const SearchInput = styled.input.attrs({
   type: 'search',
   name: 'searchText',
   placeholder: 'Search..',

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { flexCenter } from '../../styles/Mixin';
-import SearchInput from './SearchInput';
+import SearchInput from './SearchArea';
 
 export default function Navbar() {
   return (
