@@ -6,6 +6,7 @@ import { RecoilRoot } from 'recoil';
 import theme from './styles/Theme';
 import GlobalStyle from './styles/GlobalStyle';
 import Navbar from './components/navbar/Navbar';
+import SearchResult from './pages/SearchResult';
 
 export default function Router() {
   return (
@@ -16,6 +17,7 @@ export default function Router() {
           <Navbar />
           <Routes>
             <Route path='/' element={<Mainpage />}></Route>
+            <Route path='/search' element={<SearchResult />}></Route>
           </Routes>
         </RecoilRoot>
       </ThemeProvider>

@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import VideoElement from './VideoElement';
 import { nanoid } from 'nanoid';
 
-export default function VideosList({ mostPopular }) {
+export default function VideosList({ videos }) {
   return (
     <OuterContainer>
-      {mostPopular.map((item) => {
+      {videos.map((item) => {
         return (
           <VideoElement
             key={nanoid(5)}

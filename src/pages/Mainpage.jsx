@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useRecoilState } from 'recoil';
-import { searchUrl } from '../atom/apiUrl';
 import VideosList from '../components/videosList/VideosList';
 
 export default function Mainpage() {
-  const [requestSearchUrl, setRequestSearchUrl] = useRecoilState(searchUrl);
-  const [mostPopular, setMostPopular] = useState([]);
-  const [searchResult, setSearchResult] = useState([]);
+  const [videos, setVideos] = useState([]);
 
   useEffect(() => {
     const mostPopUrl =
@@ -19,22 +15,13 @@ export default function Mainpage() {
     fetch(mostPopUrl)
       .then((res) => res.json())
       .then((res) => {
-        setMostPopular([...res.items]);
+        setVideos([...res.items]);
       });
   }, []);
 
-  console.log(mostPopular);
-
-  // useEffect(() => {
-  //   requestSearchUrl &&
-  //     fetch(requestSearchUrl)
-  //       .then((res) => res.json())
-  //       .then((res) => console.log(res));
-  // }, [requestSearchUrl]);
-
   return (
     <OuterContainer>
-      <VideosList mostPopular={mostPopular} />
+      <VideosList videos={videos} />
     </OuterContainer>
   );
 }

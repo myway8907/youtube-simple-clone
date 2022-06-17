@@ -1,14 +1,25 @@
 import React, { useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
-import { searchUrl } from '../../atom/apiUrl';
+import { searchResults } from '../../atom/videos';
+import { useNavigate } from 'react-router-dom';
 
 export default function SearchArea() {
-  const [, setSearchUrl] = useRecoilState(searchUrl);
+  const [, setSearchVideos] = useRecoilState(searchResults);
   const inputRef = useRef();
   const formRef = useRef();
+  const navigate = useNavigate();
 
-  const makeSearchUrl = useCallback(() => {
+  const getSearchResult = useCallback((url) => {
+    fetch(url)
+      .then((res) => res.json())
+      .then((res) => {
+        setSearchVideos(res.items);
+      });
+  }, []);
+
+  const onSubmit = useCallback((event) => {
+    event.preventDefault();
     const dataUrl =
       process.env.REACT_APP_BASE_URL +
       'search?part=snippet&maxResults=25&q=' +
@@ -16,15 +27,10 @@ export default function SearchArea() {
       '&key=' +
       process.env.REACT_APP_AUTH_KEY;
 
-    setSearchUrl(dataUrl);
-  }, []);
-
-  const onSubmit = useCallback((event) => {
-    event.preventDefault();
-
-    makeSearchUrl();
+    getSearchResult(dataUrl);
 
     formRef.current.reset();
+    navigate('/search');
   }, []);
 
   return (
